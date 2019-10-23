@@ -1,0 +1,7 @@
+{
+  "name": "GameCollectionistApp",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
