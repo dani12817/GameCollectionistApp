@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <img src="/assets/img/logo.png" srcset="/assets/img/logo.png">
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form class="loginForm" [formGroup]="loginForm.formGroup">
+        <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input formControlName="email"></ion-input>
+        </ion-item>
+        <div class="fieldError">{{loginForm.hasError('email')}}</div>
+
+        <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input formControlName="password" type="password"></ion-input>
+        </ion-item>
+        <div class="fieldError">{{loginForm.hasError('password')}}</div>
+    </form>
+
+    <ion-button expand="block" [disabled]="loginForm.formIsInvalid()" (click)="doLoginEmailPass()">Iniciar Sesión</ion-button>
+
+    <div class="SNLoginContainer" fxLayout="column" fxLayoutAlign=" center">
+        <div class="googleLoginButton">
+            <img src="assets/img/login/google.png" (click)="dologinSocialNetwork('google')">
+        </div>
+    </div>
+
+    <div class="registerContainer">
+        <p>¿Sin cuenta? <a routerLink="/register" routerDirection="forward">Crear una cuenta</a></p>
+    </div>
+</ion-content>

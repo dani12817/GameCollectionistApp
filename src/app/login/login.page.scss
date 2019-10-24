@@ -1,0 +1,27 @@
+ion-content {
+  .loginForm {
+    .fieldError {
+      height: 18px;
+      color: orange;
+      padding-left: 16px;
+      margin-bottom: 12px;
+    }
+  }
+
+  ion-button {
+    margin-top: 24px;
+  }
+
+  .SNLoginContainer img {
+    margin-top: 12px;
+    cursor: pointer;
+  }
+
+  .registerContainer {
+    text-align: center;
+      
+    a {
+      cursor: pointer;
+    }
+  }
+}

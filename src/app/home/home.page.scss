@@ -2,3 +2,13 @@
   max-height: 35vh;
   overflow: hidden;
 }
+
+ion-content {
+  padding-top: 12px;
+  
+  .gameCard {
+    width: 80px;
+    margin: 6px;
+    cursor: pointer;
+  }
+}

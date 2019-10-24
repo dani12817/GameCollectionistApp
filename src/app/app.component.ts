@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
@@ -10,24 +11,18 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  public appPages = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
-    }
+  appPages = [
+    {title: 'Home', url: '/home', icon: 'home'},
+    {title: 'Iniciar Sesión', url: 'login', icon: 'contact'},
   ];
 
-  constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar
-  ) {
+  appPagesLogged = [
+    {title: 'Home', url: '/home', icon: 'home'},
+    {title: 'Añadir Juego', url: '/add-game', icon: 'logo-chrome'},
+    {title: 'Cerrar Sesión', url: '/home', icon: 'exit'},
+  ];
+
+  constructor(private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar, private afAuth: AngularFireAuth) {
     this.initializeApp();
   }
 
@@ -36,5 +31,14 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  getAppPages() {
+    return this.afAuth.auth.currentUser !== null ? this.appPagesLogged : this.appPages;
+  }
+
+  logOff() {
+    console.log("logOff");
+    this.afAuth.auth.signOut();
   }
 }

@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { HomePage } from './home/home.page';
+import { AddGamePage } from './add-game/add-game.page';
+import { LoginPage } from './login/login.page';
+import { RegisterPage } from './register/register.page';
+
 const routes: Routes = [
   {
     path: '',
@@ -9,11 +14,19 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+    component: HomePage
   },
   {
-    path: 'list',
-    loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
+    path: 'login',
+    component: LoginPage
+  },
+  {
+    path: 'register',
+    component: RegisterPage
+  },
+  {
+    path: 'add-game',
+    component: AddGamePage
   }
 ];
 

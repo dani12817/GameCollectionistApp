@@ -1,0 +1,29 @@
+ion-content {
+  .boxartInput {
+    max-width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .addGameForm {
+    .fieldError {
+      height: 18px;
+      color: orange;
+      padding-left: 16px;
+      margin-bottom: 12px;
+    }
+
+    .barcodeField {
+      ion-item {
+        width: 100%;
+      }
+
+      .barcodeButton {
+        margin-left: 16px;
+      }
+    }
+  }
+
+  ion-button {
+    margin-top: 24px;
+  }
+}

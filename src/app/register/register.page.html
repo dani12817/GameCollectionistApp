@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <img src="/assets/img/logo.png" srcset="/assets/img/logo.png">
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form class="registerForm" [formGroup]="registerForm.formGroup">
+        <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input formControlName="email"></ion-input>
+        </ion-item>
+        <div class="fieldError">{{registerForm.hasError('email')}}</div>
+
+        <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input formControlName="password" type="password"></ion-input>
+        </ion-item>
+        <div class="fieldError">{{registerForm.hasError('password')}}</div>
+
+        <ion-item>
+            <ion-label position="floating">RepetirContraseña</ion-label>
+            <ion-input formControlName="password-match" type="password"></ion-input>
+        </ion-item>
+        <div class="fieldError">{{registerForm.hasError('password-match')}}</div>
+    </form>
+
+    <ion-button expand="block" [disabled]="registerForm.formIsInvalid()" (click)="doRegisterEmail()">Registrarse</ion-button>
+</ion-content>
