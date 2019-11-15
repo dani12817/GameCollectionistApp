@@ -1,0 +1,14 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <img src="/assets/img/logo.png" srcset="/assets/img/logo.png">
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div clas="gameCardList" fxLayout="row wrap" fxLayoutAlign="space-evenly center">
+        <img class="gameCard" *ngFor="let game of getGameList()" [src]="game.image ? game.image : 'assets/img/no_image.jpg'" [alt]="game.name">
+    </div>
+</ion-content>

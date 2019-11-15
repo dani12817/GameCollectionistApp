@@ -1,0 +1,21 @@
+ion-header {
+  ion-toolbar {
+    ion-buttons ion-button {
+      color: white;
+    }
+  }
+}
+
+ion-content {
+  h1 {
+    margin-top: 0;
+  }
+
+  ion-list {
+    margin: 0 -16px;
+
+    ion-item-sliding {
+      border-right: 3px solid #673ab0;
+    }
+  }
+}

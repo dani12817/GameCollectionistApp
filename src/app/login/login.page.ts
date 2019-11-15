@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NavController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import { FormClass } from '../../shared/form-class';
 import { AuthService } from '../../providers/auth.service';
@@ -21,19 +22,12 @@ export class LoginPage {
     password: { required: 'La contraseña es obligatoria.' },
   };
 
-  constructor(private authService: AuthService, private navCtrl: NavController, private afAuth: AngularFireAuth, private toastCtrl: ToastController) {
+  constructor(private authService: AuthService, private navCtrl: NavController, private afAuth: AngularFireAuth, private toastCtrl: ToastController,
+  private google: GooglePlus) {
     this.loginForm = new FormClass(new FormGroup({
       'email': new FormControl({value: '', disabled: false}, [Validators.required]),
       'password': new FormControl({value: '', disabled: false}, [Validators.required]),
     }), this.validationMessages);
-
-    this.afAuth.auth.getRedirectResult().then(async authData => {
-      console.log("authData", authData);
-      if (authData.user) {
-        this.navCtrl.navigateRoot('/home');
-        (await this.toastCtrl.create({ message: 'Inicio de Sesión Correcto', duration: 3000 })).present();
-      }
-    }).catch(error => console.log(error));
   }
 
   doLoginEmailPass() {
@@ -44,13 +38,21 @@ export class LoginPage {
     }).catch(err => console.error(err));
   }
 
-  dologinSocialNetwork(loginType: string) {
-    let provider;
-    switch (loginType) {
-      case 'google':
-        provider = new auth.GoogleAuthProvider();
-        break;
+  async doLoginSocialNetwork(loginType: string) {
+    try {
+      const googleUser = await this.google.login({
+        'webClientId': '47521015706-5p43d12qsncil5p0jt2gq29rs108v4hu.apps.googleusercontent.com',
+        'offline': true,
+        'scoper': 'profile email'
+      });
+      const firebaseUser = await this.afAuth.auth.signInWithCredential(auth.GoogleAuthProvider.credential(googleUser.idToken));
+
+      console.log("doLoginSocialNetwork", firebaseUser);
+      (await this.toastCtrl.create({ message: 'Inicio de Sesión Correcto', duration: 3000 })).present();
+      this.navCtrl.navigateRoot('/home');
+    } catch (err) {
+      console.error(err);
+      (await this.toastCtrl.create({ message: 'Inicio de Sesión erróneo', duration: 3000 })).present();
     }
-    this.authService.loginSocialNetwork(provider);
   }
 }

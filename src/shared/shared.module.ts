@@ -9,6 +9,10 @@ import { HomePage } from '../app/home/home.page';
 import { AddGamePage } from '../app/add-game/add-game.page';
 import { LoginPage } from '../app/login/login.page';
 import { RegisterPage } from '../app/register/register.page';
+import { PendingGamesPage } from 'src/app/pending-games/pending-games.page';
+import { MyLibraryPage } from 'src/app/my-library/my-library.page';
+import { GameDetailsPage } from 'src/app/game-details/game-details.page';
+import { AddOtherModalPage } from './add-other-modal/add-other-modal.page';
 
 
 @NgModule({
@@ -28,6 +32,7 @@ import { RegisterPage } from '../app/register/register.page';
     FlexLayoutModule,
     ReactiveFormsModule,
   ],
-  declarations: [HomePage, AddGamePage, LoginPage, RegisterPage]
+  entryComponents: [AddOtherModalPage],
+  declarations: [HomePage, AddGamePage, LoginPage, RegisterPage, PendingGamesPage, MyLibraryPage, GameDetailsPage, AddOtherModalPage]
 })
 export class SharedModule {}

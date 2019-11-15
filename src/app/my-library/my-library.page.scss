@@ -1,0 +1,79 @@
+ion-content {
+  .platformTitleContainer {
+      margin-bottom: 12px;
+      
+      .platformTitle {
+          font-size: 18px;
+          font-weight: bold;
+          text-align: center;
+      }
+  }
+
+  .gameCardList {
+      .gameCard {
+          width: 160px;
+          margin: 12px;
+          cursor: pointer;
+      }
+  }
+
+  .platformLibraryList {
+      .platformLibraryCard {
+          width: 320px;
+          cursor: pointer;
+  
+          .platformLibraryImage {
+              width: inherit;
+          }
+  
+          .platformLibraryQuantity {
+              text-align: center;
+              margin-top: 6px;
+              font-size: 14px;
+              font-style: italic;
+              font-weight: bold;
+          }
+      }
+  }
+}
+
+@media screen and (max-width: 768px) {
+    ion-content {
+        .platformLibraryList {
+            .platformLibraryCard:nth-child(odd){
+                margin-right: 6px;
+            }
+
+            .platformLibraryCard:nth-child(even){
+                margin-left: 6px;
+            }
+
+            .platformLibraryCard {
+                width: calc(33vw - 36px);
+                margin-bottom: 12px;
+                max-width: 260px;
+
+                .platformLibraryImage {
+                    max-width: 260px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 568px) {
+    ion-content {
+        .platformLibraryList {
+            .platformLibraryCard {
+                width: calc(50vw - 36px);
+            }
+        }
+
+        .gameCardList {
+            .gameCard {
+                width: 90px;
+                margin: 6px;
+            }
+        }
+    }
+}

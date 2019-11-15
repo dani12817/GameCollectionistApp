@@ -1,14 +1,21 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
+            <ion-menu-button *ngIf="!editGame"></ion-menu-button>
+            <ion-back-button *ngIf="editGame"></ion-back-button>
         </ion-buttons>
         <img src="/assets/img/logo.png" srcset="/assets/img/logo.png">
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-    <input class="boxartInput" type="file" (change)="selectBoxart($event)" />
+    <div class="boxartContainer" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center end">
+        <div class="gameBoxartContainer">
+            <img [src]="gameBoxartURL ? gameBoxartURL : 'assets/img/no_image.jpg'">
+            <button mat-icon-button color="warn" class="boxartDeleteButton" (click)="removeNewBoxart()" *ngIf="gameBoxart && gameData.image"><ion-icon slot="start" name="remove"></ion-icon></button>
+        </div>
+        <input class="boxartInput" type="file" (change)="selectBoxart($event)" />
+    </div>
 
     <form class="addGameForm" [formGroup]="addGameForm.formGroup">
         <ion-item>
@@ -17,15 +24,33 @@
         </ion-item>
         <div class="fieldError">{{addGameForm.hasError('name')}}</div>
 
-        <ion-item>
+        <ion-item style="margin-bottom: 12px;">
             <ion-label position="floating">Nombre Original</ion-label>
             <ion-input formControlName="original_name"></ion-input>
         </ion-item>
+        
+        <ion-item style="margin-bottom: 12px;">
+            <ion-label>Edición Limitada/Coleccionista</ion-label>
+            <ion-checkbox slot="start" formControlName="collectors_edition"></ion-checkbox>
+        </ion-item>
 
         <ion-item>
-            <ion-label position="floating">Código del Juego</ion-label>
-            <ion-input formControlName="game_code"></ion-input>
+            <ion-label>Género</ion-label>
+            <ion-select multiple="true" formControlName="genres">
+                <ion-select-option [value]="genre" *ngFor="let genre of genres">{{genre}}</ion-select-option>
+            </ion-select>
         </ion-item>
+        <div class="fieldError">{{addGameForm.hasError('genres')}}</div>
+
+        <div fxLayout="row" class="gamecodeField">
+            <ion-item>
+                <ion-label position="floating">Código del Juego</ion-label>
+                <ion-input formControlName="game_code"></ion-input>
+            </ion-item>
+            <ion-button class="gamecodeButton" (click)="readGameCodeFromImage()">
+                <ion-icon slot="icon-only" name="camera"></ion-icon>
+            </ion-button>
+        </div>
         <div class="fieldError">{{addGameForm.hasError('game_code')}}</div>
 
         <div fxLayout="row" class="barcodeField">
@@ -56,5 +81,49 @@
         <div class="fieldError">{{addGameForm.hasError('region')}}</div>
     </form>
 
-    <ion-button expand="block" [disabled]="addGameForm.formIsInvalid() || gameBoxart === null" (click)="addGame()">Crear Juego</ion-button>
+    <div class="mat-divider"></div>
+
+    <div class="gameOtherPlatformsContainer">
+        <div class="ggameOtherPlatformsTitleContainer" fxLayoutAlign="space-between center">
+            <div class="gameOtherPlatformsTitle">Otras Plataformas</div>
+            <ion-button class="icon-only primary" (click)="openModal('other_platforms')"><ion-icon name="add"></ion-icon></ion-button>
+        </div>
+        <ion-list>
+            <ion-item-sliding *ngFor="let platform of addGameForm.get('other_platforms').value">
+                <ion-item>
+                    <ion-avatar class="platformImage" slot="start">
+                        <img [src]="gameMeth.getPlatformImage(platform.platform)">
+                    </ion-avatar>
+                    <ion-label>{{platform.game_code}}</ion-label>
+                </ion-item>
+                <ion-item-options side="end">
+                    <ion-item-option (click)="removeOtherListElement(platform, 'other_platforms')"><ion-icon name="remove"></ion-icon></ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+    </div>
+
+    <div class="gameOtherRegionsContainer">
+        <div class="gameOtherRegionsTitleContainer" fxLayoutAlign="space-between center">
+            <div class="gameOtherRegionsTitle">Otras Regiones</div>
+            <ion-button class="icon-only primary" (click)="openModal('other_regions')"><ion-icon name="add"></ion-icon></ion-button>
+        </div>
+        <ion-list>
+            <ion-item-sliding *ngFor="let region of addGameForm.get('other_regions').value">
+                <ion-item>
+                    <ion-avatar class="regionImage" slot="start">
+                        <img [src]="gameMeth.getRegionImage(region.region)">
+                    </ion-avatar>
+                    <ion-label>{{region.game_code}}</ion-label>
+                </ion-item>
+                <ion-item-options side="end">
+                    <ion-item-option (click)="removeOtherListElement(region, 'other_regions')"><ion-icon name="remove"></ion-icon></ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+    </div>
+
+    <ion-button class="saveGameButton" expand="block" [disabled]="addGameForm.formIsInvalid() || gameBoxart === null" (click)="addGame()">
+        {{editGame ? 'Guardar' : 'Crear'}} Juego
+    </ion-button>
 </ion-content>

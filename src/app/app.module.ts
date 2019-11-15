@@ -10,6 +10,9 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { OCR } from '@ionic-native/ocr/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,7 +25,6 @@ import { AuthService } from '../providers/auth.service';
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -39,7 +41,10 @@ import { AuthService } from '../providers/auth.service';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     GameService,
     AuthService,
-    BarcodeScanner
+    BarcodeScanner,
+    GooglePlus,
+    Camera,
+    OCR
   ],
   bootstrap: [AppComponent]
 })

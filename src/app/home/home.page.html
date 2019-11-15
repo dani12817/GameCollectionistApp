@@ -8,7 +8,10 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <div clas="gameCardList" fxLayout="row wrap" fxLayoutAlign="space-evenly center">
-        <img class="gameCard" *ngFor="let game of getGameList()" [src]="game.image" [alt]="game.name">
+        <img class="gameCard" [ngClass]="{'collectorsEdition': game.collectors_edition}" *ngFor="let game of getGameList()" [src]="gameMeth.getGameBosart(game.image)" [alt]="game.name" [routerLink]="['/', game.game_code]">
     </div>
 </ion-content>

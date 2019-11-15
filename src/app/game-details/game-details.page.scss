@@ -1,0 +1,123 @@
+ion-content {
+  margin: 0 auto;
+
+  .gameBoxartContainer {
+      position: relative;
+
+      .gameBoxart {
+        width: 100%;
+      }
+
+      .gameEditButton {
+          left: 0;
+          top: 0;
+          position: absolute;
+      }
+
+      .gameAddButton {
+          right: 0;
+          top: 0;
+          position: absolute;
+      }
+  }
+
+  .gameDataContianer {
+      margin-bottom: auto;
+      
+      .gameDataSection:not(:last-child) {
+          margin-bottom: 16px;
+      }
+
+      .gameDataSectionTitle {
+          font-size: 16px;
+          font-weight: 600;
+          margin-bottom: 8px;
+      }
+
+      .gameDataName {
+          font-weight: 600;
+          font-size: 24px;
+
+          span {
+              font-style: italic;
+          }
+      }
+
+      .gameDataGenresContainer {
+          padding: 0 16px;
+
+          .gameDataSectionTitle {
+              margin-left: -16px;
+          }
+
+          mat-chip-list {
+              mat-chip {
+                  font-weight: 600;
+                  cursor: pointer;
+              }
+          }
+      }
+
+      .slashDivider {
+          font-size: 38px;
+          line-height: 26px;
+          margin-left: 16px !important;
+      }
+
+      .gameDataPlatform, .gameDataRegion {
+          img:not(:first-child){
+              cursor: pointer;
+          }
+      }
+
+      .gameDataPlatform {
+          .gameDataPlatforms * {
+              margin: 8px 0;
+          }
+
+          img {
+              width: 96px;
+          }
+      }
+
+      .gameDataRegion {
+          img {
+              width: 48px;
+              margin-left: 16px;
+          }
+      }
+  }
+}
+
+@media screen and (min-width: 569px) {
+  ion-content {
+      padding: 24px;
+      flex-direction: column !important;
+
+      .gameBoxartContainer {
+          width: 320px;
+          margin: 0 auto;
+      }
+  
+      .gameDataContianer {
+          width: 100%;
+          margin-top: 16px;
+      }
+
+      .gameDataPlatform {
+          .gameDataPlatforms {
+              place-content: center space-evenly !important;
+          }
+      }
+  }
+}
+
+@media screen and (max-width: 568px) {
+  ion-content {
+      padding: 12px;
+
+      .gameBoxartContainer {
+        width: calc(100vw - 32px);
+      }
+  }
+}

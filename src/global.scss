@@ -39,3 +39,44 @@ ion-header {
         }
     }
 }
+
+.alert-wrapper {
+    width: 400px !important;
+    max-width: 80vw !important;
+    max-height: 80vh !important;
+
+    .alert-checkbox-group, .alert-radio-group {
+        max-height: none;
+    }
+}
+
+img.collectorsEdition {
+    width: 180px !important;
+}
+
+ion-button.icon-only {
+    --background: transparent;
+    --box-shadow: none;
+    --background-hover: transparent;
+}
+
+.primary {
+    color: #673ab0;
+}
+
+.accent {
+    color: #FFB02F;
+}
+
+ion-avatar.platformImage, ion-avatar.regionImage {
+  height: auto !important;
+  --border-radius: 0;
+}
+
+ion-avatar.platformImage {
+  width: 100px !important;
+}
+
+ion-avatar.regionImage {
+  width: 60px !important;
+}

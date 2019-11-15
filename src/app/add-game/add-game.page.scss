@@ -1,29 +1,81 @@
 ion-content {
-  .boxartInput {
-    max-width: 100%;
-    margin-bottom: 12px;
+  .boxartContainer {
+    margin-bottom: 16px;
+
+    .gameBoxartContainer {
+        position: relative;
+
+        .boxartDeleteButton {
+            left: 0;
+            top: 0;
+            position: absolute;
+        }
+    }
+
+    .boxartInput {
+      max-width: 100%;
+      margin-bottom: 12px;
+    }
   }
 
   .addGameForm {
     .fieldError {
-      height: 18px;
+      min-height: 18px;
       color: orange;
       padding-left: 16px;
+      margin-top: 4px;
       margin-bottom: 12px;
     }
 
-    .barcodeField {
+    .barcodeField, .gamecodeField {
       ion-item {
         width: 100%;
       }
 
-      .barcodeButton {
+      .barcodeButton, .gamecodeButton {
         margin-left: 16px;
       }
     }
   }
 
-  ion-button {
+  ion-list {
+    margin: 0 -16px;
+
+    ion-item-sliding {
+      border-right: 3px solid #673ab0;
+    }
+  }
+  
+  ion-button.saveGameButton {
     margin-top: 24px;
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  ion-content {
+    .boxartContainer {
+      .gameBoxartContainer {
+        margin-right: 16px;
+
+        img {
+          height: 256px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 599px) {
+  ion-content {
+    .boxartContainer {
+      .gameBoxartContainer {
+        margin-bottom: 16px;
+
+        img {
+          width: 100vw;
+        }
+      }
+    }
   }
 }
