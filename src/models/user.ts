@@ -8,10 +8,10 @@ export class User {
 
     constructor(userData: firebase.auth.UserCredential) {
         this.email = userData.user.email;
-        this.name = userData.user.email.split('@')[0];
+        this.name = userData.user.displayName ? userData.user.displayName : userData.user.email.split('@')[0];
         this.uid = userData.user.uid;
         this.admin = false;
-        this.avatar = null;
+        this.avatar = userData.user.photoURL;
         this.games = [];
     }
 }

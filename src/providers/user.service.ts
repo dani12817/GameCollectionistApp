@@ -33,12 +33,14 @@ export class UserService {
   gameOnLibrary(gamecode: string): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
         this.authService.getLoggedInUser().then((response: User) => {
+          if (response) {
             for (const game of response.games) {
                 if (game.gamecode === gamecode) {
                     resolve(true);
                 }
             }
-            resolve(false);
+          }
+          resolve(false);
         }, err => reject(err));
     });
   }

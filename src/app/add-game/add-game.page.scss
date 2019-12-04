@@ -46,8 +46,11 @@ ion-content {
     }
   }
   
-  ion-button.saveGameButton {
+  ion-button.saveGameButton, ion-button.deleteGameButton {
     margin-top: 24px;
+  }
+
+  ion-button.saveGameButton {
     margin-bottom: 16px;
   }
 }

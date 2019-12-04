@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Game } from '../../models/game';
 import { GameService } from '../../providers/game.service';
@@ -18,12 +17,11 @@ export class HomePage {
   gamesFiltered: Game[]; filterActive: boolean = false;
   gameMeth = GameMethods;
 
-  constructor(private gameService: GameService, private afs: AngularFirestore) {
-    this.initGameList();
-  }
+  constructor(private gameService: GameService) { }
 
-  async initGameList() {
-    await this.gameService.getAllGames().then(response => {
+  ionViewWillEnter(): void {
+    this.gameService.getAllGames().then(response => {
+      console.log("getGames");
       this.games = response;
     }).catch(err => console.error(err));
   }
@@ -32,8 +30,8 @@ export class HomePage {
     return this.filterActive ? this.gamesFiltered : this.games;
   }
   
-  async doRefresh(event) {
+  /*async doRefresh(event) {
     await this.initGameList();
     event.target.complete();
-  }
+  }*/
 }

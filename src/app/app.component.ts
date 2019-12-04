@@ -25,14 +25,9 @@ export class AppComponent {
     {title: 'Cerrar sesión', url: '/home', icon: 'exit'},
   ];
 
-  constructor(private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar, private afAuth: AngularFireAuth, private authService: AuthService) {
+  constructor(private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar, private afAuth: AngularFireAuth, public authService: AuthService) {
     this.initializeApp();
-    this.authService.getLoggedInUser().then(response => {
-      if(response != undefined && response.admin) {
-        this.appPagesLogged.push({title: 'Crear un juego', url: '/create-game', icon: 'logo-game-controller-a'});
-        this.appPagesLogged.push({title: 'Juegos pendientes', url: '/pending-games', icon: 'cloud-upload'});
-      }
-    }).catch(err => console.error(err));
+    this.authService.getLoggedInUser();
   }
 
   initializeApp() {
@@ -48,6 +43,7 @@ export class AppComponent {
 
   logOff() {
     console.log("logOff");
+    this.authService.userLogged = null;
     this.afAuth.auth.signOut();
   }
 }

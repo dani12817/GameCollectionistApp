@@ -41,7 +41,7 @@ export class LoginPage {
   async doLoginSocialNetwork(loginType: string) {
     try {
       const googleUser = await this.google.login({
-        'webClientId': '47521015706-5p43d12qsncil5p0jt2gq29rs108v4hu.apps.googleusercontent.com',
+        'webClientId': '920776624598-oubrvckmfggf5fih9m3vev5vfe347bd6.apps.googleusercontent.com',
         'offline': true,
         'scoper': 'profile email'
       });

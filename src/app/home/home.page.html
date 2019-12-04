@@ -3,14 +3,17 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <img src="/assets/img/logo.png" srcset="/assets/img/logo.png">
+        <img src="/assets/img/logo.png" srcset="/assets/img/logo.png" [routerLink]="['/home']">
+        <ion-buttons slot="end">
+            <ion-button (click)="ionViewWillEnter()"><ion-icon slot="icon-only" name="refresh"></ion-icon></ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <!-- <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+    </ion-refresher> -->
     <div clas="gameCardList" fxLayout="row wrap" fxLayoutAlign="space-evenly center">
         <img class="gameCard" [ngClass]="{'collectorsEdition': game.collectors_edition}" *ngFor="let game of getGameList()" [src]="gameMeth.getGameBosart(game.image)" [alt]="game.name" [routerLink]="['/', game.game_code]">
     </div>

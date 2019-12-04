@@ -10,8 +10,8 @@
 <ion-content padding>
     <div class="gameBoxartContainer">
         <img class="gameBoxart" [src]="gameData.image" [srcset]="gameData.image">
-        <ion-button class="gameEditButton primary icon-only" [routerLink]="['/edit-game', gameData.game_code]"><ion-icon name="create"></ion-icon></ion-button>
-        <ion-button class="gameAddButton accent icon-only" (click)="addGameToLibrary()" *ngIf="!gameData.game_on_library"><ion-icon name="add"></ion-icon></ion-button>
+        <ion-button class="gameEditButton primary icon-only" [routerLink]="['/edit-game', gameData.game_code]" *ngIf="authService.userLogged && authService.userLogged.admin"><ion-icon name="create"></ion-icon></ion-button>
+        <ion-button class="gameAddButton accent icon-only" (click)="addGameToLibrary()" *ngIf="!gameData.game_on_library && authService.userLogged"><ion-icon name="add"></ion-icon></ion-button>
         <ion-button class="gameAddButton accent icon-only" (click)="removeGameFromLibrary()" *ngIf="gameData.game_on_library"><ion-icon name="remove"></ion-icon></ion-button>
     </div>
 

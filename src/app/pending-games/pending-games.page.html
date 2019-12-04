@@ -4,11 +4,19 @@
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <img src="/assets/img/logo.png" srcset="/assets/img/logo.png">
+        <ion-buttons slot="end">
+            <ion-button (click)="ionViewWillEnter()"><ion-icon slot="icon-only" name="refresh"></ion-icon></ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <div clas="gameCardList" fxLayout="row wrap" fxLayoutAlign="space-evenly center">
-        <img class="gameCard" *ngFor="let game of getGameList()" [src]="game.image ? game.image : 'assets/img/no_image.jpg'" [alt]="game.name">
+        <img class="gameCard" 
+            [ngClass]="{'collectorsEdition': game.collectors_edition}"
+            *ngFor="let game of getGameList()"
+            [src]="game.image ? game.image : 'assets/img/no_image.jpg'"
+            [alt]="game.name" 
+            [routerLink]="['/pending-game', game.game_code]">
     </div>
 </ion-content>

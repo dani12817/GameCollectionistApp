@@ -23,7 +23,8 @@ import { GameMethods } from '../../shared/game-methods';
   styleUrls: ['add-game.page.scss'],
 })
 export class AddGamePage {
-  gameData: Game = new Game(); pendingGame: boolean = true; editGame: boolean = false;
+  gameData: Game = new Game(); /*pendingGame: boolean = true; editGame: boolean = false;*/
+  gameAction: string = 'requestGame';
   addGameForm: FormClass; gameBoxart = null; gameBoxartURL;
   gameRegions: string[] = gameRegions;
   platforms: string[] = platforms;
@@ -58,20 +59,21 @@ export class AddGamePage {
       'collectors_edition': new FormControl({value: false, disabled: false}),
     }), this.validationMessages);
     
-    if (this.router.url.includes('create') || this.router.url.includes('edit')) {
-      this.editGame = this.router.url.includes('edit');
-      this.pendingGame = false; this.gameBoxart = undefined;
+    if (this.router.url.includes('create') || this.router.url.includes('edit') || this.router.url.includes('pending')) {
+      // this.editGame = this.router.url.includes('edit');
+      if (this.router.url.includes('edit')) { this.gameAction = 'editGame'; }
+      if (this.router.url.includes('create')) { this.gameAction = 'createGame'; }
+      if (this.router.url.includes('pending')) { this.gameAction = 'pendingGame'; }
+      /*this.pendingGame = false;*/this.gameBoxart = undefined;
       this.addGameForm.formGroup.get('name').setValidators([]);
-      this.addGameForm.formGroup.get('game_code').setValidators([]);
       this.addGameForm.formGroup.get('genres').setValidators([]);
       this.addGameForm.formGroup.get('region').setValidators([]);
       this.addGameForm.formGroup.get('platform').setValidators([]);
-      this.addGameForm.formGroup.get('barcode').setValidators([]);
       this.addGameForm.formGroup.updateValueAndValidity();
     }
     
     this.route.data.subscribe((routeData: {gameData: Game}) => {
-      this.gameData = routeData.gameData;
+      if (routeData.gameData) { this.gameData = routeData.gameData; } else { this.gameData = new Game(); }
 
       this.addGameForm.patchValue(this.gameData);
       this.gameBoxartURL = this.gameData.image;
@@ -81,6 +83,12 @@ export class AddGamePage {
         this.gameData.game_on_library = response;
       }).catch(err => console.error(err));
     });
+  }
+
+  showBackButton(): boolean {
+    if (this.gameAction === 'pendingGame' || this.gameAction === 'editGame') {
+      return true;
+    } else { return false; }
   }
 
   readGameCodeFromImage() {
@@ -125,8 +133,35 @@ export class AddGamePage {
     this.gameBoxartURL = this.gameData.image; 
   }
 
-  addGame() {
-    if (this.gameData.game_code) {
+  async addGame() {
+    try {
+      if (this.gameData.game_code) {
+        if (this.gameAction === 'pendingGame') {
+          await this.deleteUpdateGame(true, true);
+          console.log("deleteUpdateGame finished");
+        } else if (this.gameData.game_code !== this.addGameForm.get('game_code').value) {
+          let gameExists: boolean = await this.gameService.gameExist(this.addGameForm.get('game_code').value);
+          if (gameExists) {
+            (await this.toastCtrl.create({message: 'El nuevo código de juego introducido ya existe', duration: 3000})).present();
+          } else {
+            await this.deleteUpdateGame(false, true);
+          }
+        } else {
+          this.updateGame();
+        }
+      } else {
+        let gameExists: boolean = await this.gameService.gameExist(this.addGameForm.get('game_code').value);
+        if(gameExists) {
+          (await this.toastCtrl.create({message: 'El juego ya existe o está pendiente de aprobación.', duration: 3000})).present();
+        } else {
+          await this.gameService.createGame(this.addGameForm.getValue(), this.gameBoxart, (this.gameAction === 'requestGame'));
+          (await this.toastCtrl.create({message: 'Petición de Juego enviada', duration: 3000})).present();
+          this.navCtrl.navigateRoot('/home');
+        }
+      }
+    } catch (err) { console.error(err); }
+
+    /*if (this.gameData.game_code) {
       if (this.router.url.includes('pending')) {
         this.gameService.deleteGame(this.gameData.game_code, true).then(() => {
           this.updateGame();
@@ -155,7 +190,7 @@ export class AddGamePage {
           }).catch(err => console.error(err));;
         }
       }).catch(err => console.error(err));
-    }
+    }*/
   }
 
   removeOtherListElement(element, otherListField: string) {
@@ -171,12 +206,23 @@ export class AddGamePage {
     }).catch(err => console.error(err));
   }
 
+  async deleteUpdateGame(pending: boolean, update?: boolean): Promise<void> {
+    console.log('before deleteGame');
+    await this.gameService.deleteGame(this.gameData.game_code, pending);
+    console.log('after deleteGame');
+    if (update) { this.updateGame(); } else {
+      this.navCtrl.setDirection('root');
+      this.router.navigate(pending ? ['/pending-games'] : ['/home']);
+    }
+  }
+
   async openModal(type: string) {
     const modal = await this.modal.create({component: AddOtherModalPage, componentProps: {type: type, game: this.gameData}});
     modal.present();
 
     const { data } = await modal.onWillDismiss();
-    if (data !== undefined) {
+    console.log("onWillDismiss", data);
+    if (data.componentProps !== undefined) {
       let otherList: {game_code: string, region?: string, platform?: string}[] = this.addGameForm.get(type).value;
       otherList.push(data.componentProps);
     }

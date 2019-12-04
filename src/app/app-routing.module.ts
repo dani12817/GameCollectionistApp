@@ -39,6 +39,13 @@ const routes: Routes = [
     component: AddGamePage
   },
   {
+    path: 'pending-game/:game_code',
+    component: AddGamePage,
+    resolve: {
+      gameData: GameDetailsResolverService
+    }
+  },
+  {
     path: 'edit-game/:game_code',
     component: AddGamePage,
     resolve: {

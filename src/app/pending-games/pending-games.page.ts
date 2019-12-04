@@ -16,12 +16,11 @@ export class PendingGamesPage {
   platforms: string[] = platforms;
   gamesFiltered: Game[]; filterActive: boolean = false;
 
-  constructor(private gameService: GameService, private afs: AngularFirestore) {
-    this.initGameList();
-  }
+  constructor(private gameService: GameService, private afs: AngularFirestore) { }
 
-  initGameList() {
+  ionViewWillEnter(): void {
     this.gameService.getAllGames(true).then(response => {
+      console.log("getPending");
       this.games = response;
     }).catch(err => console.error(err));
   }

@@ -14,6 +14,14 @@
                             <ion-label>{{p.title}}</ion-label>
                         </ion-item>
                     </ion-menu-toggle>
+                    <ion-item auto-hide="false" [routerDirection]="'root'" [routerLink]="['/create-game']" *ngIf="authService.userLogged && authService.userLogged.admin">
+                        <ion-icon slot="start" name="logo-game-controller-a"></ion-icon>
+                        <ion-label>Crear un juego</ion-label>
+                    </ion-item>
+                    <ion-item auto-hide="false" [routerDirection]="'root'" [routerLink]="['/pending-games']" *ngIf="authService.userLogged && authService.userLogged.admin">
+                        <ion-icon slot="start" name="cloud-upload"></ion-icon>
+                        <ion-label>Juegos pendientes</ion-label>
+                    </ion-item>
                 </ion-list>
             </ion-content>
         </ion-menu>

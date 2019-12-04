@@ -28,7 +28,7 @@ export class GameService {
 
   createGame(gameData: Game, boxart, pending: boolean): Promise<Game> {
     if (boxart) {
-      return this.saveWithBoxart(boxart, Object.assign({}, gameData), false);
+      return this.saveWithBoxart(Object.assign({}, gameData), boxart, pending);
     } else { return this.saveGameData(Object.assign({}, gameData)); }
   }
 
@@ -36,7 +36,7 @@ export class GameService {
 	  return new Promise<any>((resolve, reject) => {
 		const fileRef = this.storage.ref(`games/${gameData.game_code}.${boxart.name.split(".")[1]}`);
     const metaData = { contentType: boxart.type };
-    console.log(gameData, boxart, pending);
+    console.log("saveWithBoxart", gameData, boxart, pending);
 
 		fileRef.put(boxart, metaData).then(snapshot => {
 		  snapshot.ref.getDownloadURL().then(downloadURL => {
@@ -58,6 +58,7 @@ export class GameService {
   private saveGameData(gameData): Promise<Game> {
     return new Promise<Game>((resolve, reject) => {
       this.afs.collection<Game>('games').doc(gameData.game_code).set(gameData);
+      console.log("saveGameData");
       resolve(gameData);
     });
   }
@@ -74,11 +75,12 @@ export class GameService {
         console.log("deleted", game_code);
         resolve();
       }).catch(err => reject(err));
+      //setTimeout(() => { console.log("gameDeleted", game_code); resolve(); }, 5000)
     });
   }
 
-  gameExist(game_code: string): Promise<Boolean> {
-    return new Promise<Boolean>((resolve, reject) => {
+  gameExist(game_code: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
       this.getGameByGameCode(game_code).then(response => {
         if (response.game_code === null || response.game_code === undefined) {
           resolve(false);

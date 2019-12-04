@@ -4,6 +4,7 @@ import { ToastController } from '@ionic/angular';
 
 import { Game } from '../../models/game';
 import { UserService } from '../../providers/user.service';
+import { AuthService } from '../../providers/auth.service';
 
 import { GameMethods } from '../../shared/game-methods';
 
@@ -15,7 +16,7 @@ import { GameMethods } from '../../shared/game-methods';
 export class GameDetailsPage {
   gameData: Game; gameMeth = GameMethods;
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router, private toastCtrl: ToastController) {
+  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router, private toastCtrl: ToastController, public authService: AuthService) {
     this.route.data.subscribe((routeData: {gameData: Game}) => {
       this.gameData = routeData.gameData;
       if (this.gameData === null || this.gameData === undefined) { this.router.navigate(['/home']); }
