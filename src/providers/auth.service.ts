@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFireStorage } from '@angular/fire/storage';
 
 import { User } from '../models/user';
 
@@ -10,7 +11,7 @@ import { User } from '../models/user';
 export class AuthService {
   public userLogged: User;
 
-  constructor(public afAuth: AngularFireAuth, private afs: AngularFirestore) { }
+  constructor(public afAuth: AngularFireAuth, private afs: AngularFirestore, private storage: AngularFireStorage) { }
 
   loginEmailPass(loginData: {email: string, password: string}) {
     return new Promise<any>((resolve, reject) => {
@@ -18,7 +19,7 @@ export class AuthService {
         this.getLoggedInUser().then(userLogged => {
           console.log("loginEmailPass signInWithEmailAndPassword", userLogged);
           if (userLogged === undefined) {
-            console.log("initializeUser");
+            // console.log("initializeUser");
             this.userLogged = this.initializeUser(response);
           } else { this.userLogged = userLogged; }
           resolve(response);
@@ -27,12 +28,31 @@ export class AuthService {
     });
   }
 
-  registerUser(loginData: {email: string, password: string}){
+  registerUser(loginData, avatar){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.auth.createUserWithEmailAndPassword(loginData.email, loginData.password).then(response => {
-        resolve(response);
+        loginData.uid = response.user.uid;
+        this.createWithAvatar(loginData, avatar).then(response => {
+          resolve(response);
+        }, err => reject(err));
       }, err => reject(err));
     })
+  }
+
+  private createWithAvatar(loginData, avatar) {
+	  return new Promise<any>((resolve, reject) => {
+  		const fileRef = this.storage.ref(`users/${loginData.uid}`);
+      const metaData = { contentType: avatar.type };
+      console.log("createWithAvatar");
+  
+  		fileRef.put(avatar, metaData).then(snapshot => {
+  		  snapshot.ref.getDownloadURL().then(downloadURL => {
+    			loginData.avatar = downloadURL;
+          this.userLogged = this.initializeUser(loginData, true);
+    			resolve(true);
+  		  }).catch(err => reject(err));
+  		}).catch(err => reject(err));
+	  });
   }
   
   getLoggedInUser(): Promise<User> {
@@ -40,7 +60,8 @@ export class AuthService {
       if(this.userLogged) { resolve(this.userLogged); }
       this.afAuth.auth.onAuthStateChanged(user => {
         if (user) {
-          this.afs.collection<User[]>("usersGameLibrary").doc(user.uid).valueChanges().subscribe((userLibrary: User) => {
+          let sub = this.afs.collection<User[]>("usersGameLibrary").doc(user.uid).valueChanges().subscribe((userLibrary: User) => {
+            sub.unsubscribe();
             this.userLogged = userLibrary;
             resolve(userLibrary);
           });
@@ -51,9 +72,10 @@ export class AuthService {
     });
   }
 
-  initializeUser(userData: firebase.auth.UserCredential): User{
-    let user = new User(userData);
-    this.afs.collection<User[]>("usersGameLibrary").doc(userData.user.uid).set(Object.assign({}, user));
+  initializeUser(userData, register?: boolean): User{
+    let user = new User(userData, register);
+    console.log("initializeUser", user);
+    this.afs.collection<User[]>("usersGameLibrary").doc(register ? userData.uid : userData.user.uid).set(Object.assign({}, user));
     return user;
   }
 }

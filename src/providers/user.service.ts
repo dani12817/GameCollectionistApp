@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 
-import { User } from '../models/user';
+import { User, UserGame } from '../models/user';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -10,14 +11,79 @@ import { AuthService } from './auth.service';
 export class UserService {
   private usersGameLibrary = this.afs.collection<User[]>("usersGameLibrary");
 
-  constructor(private authService: AuthService, private afs: AngularFirestore) { }
+  constructor(private authService: AuthService, private storage: AngularFireStorage, private afs: AngularFirestore) { }
 
-  addGameToLibrary(gamecode: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-        this.authService.userLogged.games.push({gamecode: gamecode, reference: this.afs.doc(`games/${gamecode}`).ref});
-        this.usersGameLibrary.doc<User>(this.authService.userLogged.uid).update(this.authService.userLogged).then(() => {
-            resolve(true);
+  getUser(nickname: string, loggedUser?: boolean): Promise<User> {
+    return new Promise<User>((resolve, reject) => {
+      console.log("getUser", loggedUser);
+      if (loggedUser) {
+        resolve(this.authService.userLogged);
+      } else {
+        let sub = this.afs.collection<User>('usersGameLibrary', ref => ref.where("nickname", "==", nickname)).valueChanges().subscribe(response => {
+          sub.unsubscribe();
+          if (response.length > 0) {
+            resolve(response[0]);
+          } else { resolve(null); }
         }, err => reject(err));
+      }
+    });
+  }
+
+  updateUser(userData: User, avatarData: {file: File, url: string | ArrayBuffer}): Promise<User> {
+    if (avatarData.file) {
+      return this.saveWithBoxart(avatarData.file, userData);
+    } else { return this.saveUserData(userData); }
+  }
+
+  private async saveWithBoxart(boxart, userData: User) {
+    return new Promise<User>((resolve, reject) => {
+      const fileRef = this.storage.ref(`users/${userData.uid}`);
+      const metaData = { contentType: boxart.type };
+
+      fileRef.put(boxart, metaData).then(snapshot => {
+        snapshot.ref.getDownloadURL().then(downloadURL => {
+          userData.avatar = downloadURL;
+          this.saveUserData(userData).then(response => {
+            resolve(response);
+          });
+        }, err => reject(err));
+      }, err => reject(err));
+    });
+  }
+  
+  private saveUserData(userData): Promise<User> {
+    return new Promise<User>((resolve, reject) => {
+      console.log("Usuario Actualizado");
+      this.usersGameLibrary.doc(userData.uid).set(userData);
+      resolve(userData);
+    });
+  }
+
+  addGameToLibrary(gamecode: string, type: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.gameOnLibrary(gamecode).then(onLibrary => {
+        if (onLibrary) {
+          let usergame = this.authService.userLogged.games.find(usergame => usergame.gamecode === gamecode);
+          usergame.type = type;
+        } else {
+          if (!this.authService.userLogged.games) { this.authService.userLogged.games = []; }
+          this.authService.userLogged.games.push({gamecode: gamecode, reference: this.afs.doc(`games/${gamecode}`).ref, type: type});
+        }
+        this.usersGameLibrary.doc<User>(this.authService.userLogged.uid).update(this.authService.userLogged).then(() => {
+          resolve(true);
+        }, err => reject(err));
+      });
+    });
+  }
+
+  editGameOnLibrary(userGame: UserGame): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {      
+      let index = this.authService.userLogged.games.findIndex(usergame => usergame.gamecode === userGame.gamecode);
+      this.authService.userLogged.games[index] = userGame;
+      console.log("user_game", this.authService.userLogged.games[index]);
+      this.usersGameLibrary.doc<User>(this.authService.userLogged.uid).update(this.authService.userLogged).then(() => {
+        resolve(true);
+      }, err => reject(err));
     });
   }
 
@@ -25,22 +91,22 @@ export class UserService {
     return new Promise<boolean>((resolve, reject) => {
         this.authService.userLogged.games.splice(this.authService.userLogged.games.findIndex(game => game.gamecode === gamecode), 1);
         this.usersGameLibrary.doc<User>(this.authService.userLogged.uid).update(this.authService.userLogged).then(() => {
-            resolve(true);
+          resolve(true);
         }, err => reject(err));
     });
   }
 
-  gameOnLibrary(gamecode: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
+  gameOnLibrary(gamecode: string): Promise<UserGame> {
+    return new Promise<UserGame>((resolve, reject) => {
         this.authService.getLoggedInUser().then((response: User) => {
           if (response) {
             for (const game of response.games) {
-                if (game.gamecode === gamecode) {
-                    resolve(true);
-                }
+              if (game.gamecode === gamecode) {
+                resolve(game);
+              }
             }
           }
-          resolve(false);
+          resolve(null);
         }, err => reject(err));
     });
   }

@@ -19,14 +19,6 @@ ion-content {
   }
 
   .addGameForm {
-    .fieldError {
-      min-height: 18px;
-      color: orange;
-      padding-left: 16px;
-      margin-top: 4px;
-      margin-bottom: 12px;
-    }
-
     .barcodeField, .gamecodeField {
       ion-item {
         width: 100%;

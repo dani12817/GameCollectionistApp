@@ -8,7 +8,26 @@
 </ion-header>
 
 <ion-content padding>
+    <div class="userAvatarContainer" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center end">
+        <div class="avatarContainer">
+            <img [src]="userAvatar.url ? userAvatar.url : 'assets/img/no_image.jpg'">
+        </div>
+        <input class="boxartInput" type="file" (change)="selectAvatar($event)" />
+    </div>
+
     <form class="registerForm" [formGroup]="registerForm.formGroup">
+        <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input formControlName="name"></ion-input>
+        </ion-item>
+        <div class="fieldError">{{registerForm.hasError('name')}}</div>
+
+        <ion-item>
+            <ion-label position="floating">Nickname</ion-label>
+            <ion-input formControlName="nickname"></ion-input>
+        </ion-item>
+        <div class="fieldError">{{registerForm.hasError('nickname')}}</div>
+
         <ion-item>
             <ion-label position="floating">Email</ion-label>
             <ion-input formControlName="email"></ion-input>
@@ -22,11 +41,11 @@
         <div class="fieldError">{{registerForm.hasError('password')}}</div>
 
         <ion-item>
-            <ion-label position="floating">RepetirContraseña</ion-label>
+            <ion-label position="floating">Repetir Contraseña</ion-label>
             <ion-input formControlName="password-match" type="password"></ion-input>
         </ion-item>
         <div class="fieldError">{{registerForm.hasError('password-match')}}</div>
     </form>
 
-    <ion-button expand="block" [disabled]="registerForm.formIsInvalid()" (click)="doRegisterEmail()">Registrarse</ion-button>
+    <ion-button expand="block" [disabled]="registerForm.formIsInvalid() || !userAvatar.file" (click)="doRegisterEmail()">Registrarse</ion-button>
 </ion-content>

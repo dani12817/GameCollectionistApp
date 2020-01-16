@@ -17,10 +17,24 @@ ion-content {
       }
   }
 
+  .userGameTypeSection {
+    margin-bottom: 16px;
+
+    ion-item {
+        --ion-item-border-color: white;
+        margin: 0 auto;
+
+        ion-radio {
+            margin-right: 18px;
+        }
+    }
+  }
+
   .platformLibraryList {
       .platformLibraryCard {
           width: 320px;
           cursor: pointer;
+          margin-bottom: 12px;
   
           .platformLibraryImage {
               width: inherit;

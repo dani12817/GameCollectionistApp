@@ -19,13 +19,13 @@
 
     <form class="addGameForm" [formGroup]="addGameForm.formGroup">
         <ion-item>
-            <ion-label position="floating">Nombre</ion-label>
+            <ion-label position="stacked">Nombre</ion-label>
             <ion-input formControlName="name"></ion-input>
         </ion-item>
         <div class="fieldError">{{addGameForm.hasError('name')}}</div>
 
         <ion-item style="margin-bottom: 12px;">
-            <ion-label position="floating">Nombre Original</ion-label>
+            <ion-label position="stacked">Nombre Original</ion-label>
             <ion-input formControlName="original_name"></ion-input>
         </ion-item>
         
@@ -35,7 +35,7 @@
         </ion-item>
 
         <ion-item>
-            <ion-label>Género</ion-label>
+            <ion-label position="stacked">Género</ion-label>
             <ion-select multiple="true" formControlName="genres">
                 <ion-select-option [value]="genre" *ngFor="let genre of genres">{{genre}}</ion-select-option>
             </ion-select>
@@ -44,7 +44,7 @@
 
         <div fxLayout="row" class="gamecodeField">
             <ion-item>
-                <ion-label position="floating">Código del Juego</ion-label>
+                <ion-label position="stacked">Código del Juego</ion-label>
                 <ion-input formControlName="game_code"></ion-input>
             </ion-item>
             <ion-button class="gamecodeButton" (click)="readGameCodeFromImage()">
@@ -55,7 +55,7 @@
 
         <div fxLayout="row" class="barcodeField">
             <ion-item>
-                <ion-label position="floating">Código de Barras</ion-label>
+                <ion-label position="stacked">Código de Barras</ion-label>
                 <ion-input formControlName="barcode"></ion-input>
             </ion-item>
             <ion-button class="barcodeButton" (click)="openBarcodeScanner()">
@@ -65,7 +65,7 @@
         <div class="fieldError">{{addGameForm.hasError('barcode')}}</div>
 
         <ion-item>
-            <ion-label>Plataforma</ion-label>
+            <ion-label position="stacked">Plataforma</ion-label>
             <ion-select formControlName="platform">
                 <ion-select-option [value]="platform" *ngFor="let platform of platforms">{{platform}}</ion-select-option>
             </ion-select>
@@ -73,7 +73,7 @@
         <div class="fieldError">{{addGameForm.hasError('platform')}}</div>
 
         <ion-item>
-            <ion-label>Region</ion-label>
+            <ion-label position="stacked">Region</ion-label>
             <ion-select formControlName="region">
                 <ion-select-option [value]="region" *ngFor="let region of gameRegions">{{region}}</ion-select-option>
             </ion-select>

@@ -8,6 +8,8 @@ import { RegisterPage } from './register/register.page';
 import { PendingGamesPage } from './pending-games/pending-games.page';
 import { MyLibraryPage } from './my-library/my-library.page';
 import { GameDetailsPage } from './game-details/game-details.page';
+import { UserDataPage } from './user-data/user-data.page';
+import { UserProfilePage } from './user-profile/user-profile.page';
 
 import { GameDetailsResolverService } from '../shared/resolvers/game-details-resolver.service';
 import { AuthUserResolverService } from '../shared/resolvers/auth-user-resolver.service';
@@ -61,6 +63,17 @@ const routes: Routes = [
     component: MyLibraryPage,
     resolve: {
       gameData: AuthUserResolverService
+    }
+  },
+  {
+    path: 'user/:nickname',
+    component: UserProfilePage
+  },
+  {
+    path: 'user-data',
+    component: UserDataPage,
+    resolve: {
+      userData: AuthUserResolverService
     }
   },
   {

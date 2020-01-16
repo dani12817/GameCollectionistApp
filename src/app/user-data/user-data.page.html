@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <img src="/assets/img/logo.png" srcset="/assets/img/logo.png">
+        <ion-buttons slot="end">
+            <ion-button (click)="submitUserData()"><ion-icon slot="icon-only" name="checkmark"></ion-icon></ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="userAvatarContainer" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center end">
+        <div class="avatarContainer">
+            <img [src]="userAvatar.url ? userAvatar.url : 'assets/img/no_image.jpg'">
+        </div>
+        <input class="boxartInput" type="file" (change)="selectAvatar($event)" />
+    </div>
+
+    <form class="userDataForm" [formGroup]="userDataForm.formGroup">
+        <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input formControlName="name"></ion-input>
+        </ion-item>
+        <div class="fieldError">{{userDataForm.hasError('name')}}</div>
+
+        <ion-item>
+            <ion-label position="floating">Nickname</ion-label>
+            <ion-input formControlName="nickname" [disabled]="true"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input formControlName="email" [disabled]="true"></ion-input>
+        </ion-item>
+    </form>
+</ion-content>

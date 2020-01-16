@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button class="icon-only primary" (click)="closeModal()"><ion-icon name="arrow-back"></ion-icon></ion-button>
+        </ion-buttons>
+        <img src="/assets/img/logo.png" srcset="/assets/img/logo.png">
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <h1>Mis Datos</h1>
+
+    <div class="userGameModalContent">
+        <form class="userGameForm" [formGroup]="userGameForm.formGroup" *ngIf="userGameForm">
+            <ion-item>
+                <ion-label position="stacked">Precio</ion-label>
+                <ion-input formControlName="price" type="number" placeholder="Escribe el precio de compra"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">Divisa</ion-label>
+                <ion-select formControlName="currency" placeholder="Selecciona una divisa">
+                    <ion-select-option [value]="currency" *ngFor="let currency of objectKeys(currencies)">{{currencies[currency].name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">Fecha de compra</ion-label>
+                <ion-datetime displayFormat="DD/MM/YYYY" placeholder="Selecciona una fecha" formControlName="bought_date"></ion-datetime>
+            </ion-item>
+        </form>
+        <ion-button class="saveButton" expand="block" (click)="submitUserGame()">
+            Guardar
+        </ion-button>
+    </div>
+</ion-content>

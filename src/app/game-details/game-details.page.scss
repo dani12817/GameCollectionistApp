@@ -13,26 +13,25 @@ ion-content {
           top: 0;
           position: absolute;
       }
-
-      .gameAddButton {
-          right: 0;
-          top: 0;
-          position: absolute;
-      }
   }
 
   .gameDataContianer {
       margin-bottom: auto;
       
-      .gameDataSection:not(:last-child) {
+      .gameDataSection, .userGameTypeSection, .userGameDataSection {
           margin-bottom: 16px;
       }
 
       .gameDataSectionTitle {
-          font-size: 16px;
-          font-weight: 600;
-          margin-bottom: 8px;
-      }
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        margin-bottom: 8px;
+        }
+
+        ion-label {
+            font-size: 21px;
+            font-weight: 600;
+        }
 
       .gameDataName {
           font-weight: 600;
@@ -85,6 +84,12 @@ ion-content {
               width: 48px;
               margin-left: 16px;
           }
+      }
+
+      .userGameDataSection {
+        .userGameDataContainer {
+          padding: 0 12px;
+        }
       }
   }
 }

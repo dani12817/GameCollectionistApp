@@ -35,7 +35,6 @@ ion-header {
             display: block;
             margin-right: auto;
             margin-left: auto;
-            padding-right: 48px;
         }
     }
 }
@@ -68,6 +67,34 @@ ion-button.icon-only {
     color: #FFB02F;
 }
 
+ion-content:not(.sideMenu) {
+    ion-item {
+        --padding-start: 0;
+    
+        ion-label {
+            font-weight: 700;
+            font-size: 18px;
+        }
+    
+        ion-select {
+            padding: 12px 0 12px 12px !important;
+        }
+
+        ion-input, ion-datetime {
+            padding-left: 12px !important;
+        }
+    }
+}
+
+.fieldError {
+    min-height: 18px;
+    color: orange;
+    padding-left: 16px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
 ion-avatar.platformImage, ion-avatar.regionImage {
   height: auto !important;
   --border-radius: 0;
@@ -79,4 +106,45 @@ ion-avatar.platformImage {
 
 ion-avatar.regionImage {
   width: 60px !important;
+}
+
+.userAvatarContainer {
+    margin-bottom: 16px;
+
+    .avatarContainer {
+        margin-right: 16px;
+        position: relative;
+
+        img {
+            width: 256px;
+            height: 256px;
+            border-radius: 50%;
+        }
+
+        .boxartDeleteButton {
+            left: 0;
+            top: 0;
+            position: absolute;
+        }
+    }
+
+    .boxartInput {
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .userAvatarContainer {    
+        .avatarContainer {
+            margin-right: 16px;
+        }
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .userAvatarContainer {    
+        .avatarContainer {
+            margin: auto;
+        }
+    }
 }

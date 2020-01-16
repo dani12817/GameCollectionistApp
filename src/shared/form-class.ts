@@ -4,7 +4,7 @@ export class FormClass {
   formGroup: FormGroup;
   validationMessages: any = {};
 
-  constructor(formGroup: any, validationMessages: any) {
+  constructor(formGroup: any, validationMessages?: any) {
     if (validationMessages) {
       this.validationMessages = validationMessages;
     }

@@ -1,0 +1,25 @@
+ion-header {
+  ion-toolbar {
+    ion-buttons ion-button {
+      color: white;
+    }
+  }
+}
+
+ion-content {
+  h1 {
+    margin-top: 0;
+  }
+
+  .userGameModalContent {
+    form {
+      margin-bottom: 16px;
+    }
+
+    .saveButton {
+      bottom: 16px;
+      position: fixed;
+      width: calc(100% - 36px);
+    }
+  }
+}

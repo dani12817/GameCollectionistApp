@@ -11,13 +11,25 @@
     <ng-container *ngIf="gamePlatformSelected; else showPlatforms">
         <div class="platformTitleContainer" fxLayout="row" fxLayoutAlign="center center">
             <div class="platformTitle">Juegos de {{gamePlatformSelected[0].platform}} guardados</div>
-            <ion-button class="icon-only primary" (click)="gamePlatformSelected = null"><ion-icon name="redo"></ion-icon></ion-button>
+            <ion-button class="icon-only primary" (click)="gamePlatformSelected = null">
+                <ion-icon name="redo"></ion-icon>
+            </ion-button>
         </div>
         <div class="gameCardList" fxLayout="row wrap" fxLayoutAlign="space-evenly center">
-            <img class="gameCard" *ngFor="let game of gamePlatformSelected" [src]="game.image" [alt]="game.name" [routerLink]="['/', game.game_code]">
+            <img class="gameCard" [ngClass]="{'collectorsEdition': game.collectors_edition}" *ngFor="let game of gamePlatformSelected" [src]="game.image" [alt]="game.name" [routerLink]="['/', game.game_code]">
         </div>
     </ng-container>
     <ng-template #showPlatforms>
+        <div class="userGameTypeSection">
+            <ion-radio-group [value]="selectLibrary" (ionSelect)="initializeLibrary($event)">
+                <ion-row>
+                    <ion-item *ngFor="let userLibrary of objectKeys(userLibraries)">
+                        <ion-label>{{userLibraries[userLibrary]}}</ion-label>
+                        <ion-radio slot="start" [value]="userLibrary"></ion-radio>
+                    </ion-item>
+                </ion-row>
+            </ion-radio-group>
+        </div>
         <div class="platformLibraryList" fxLayout="row wrap" fxLayoutAlign="space-evenly center">
             <div class="platformLibraryCard" *ngFor="let platform of objectKeys(userGamesLibrary)" (click)="selectGamePlatform(platform)">
                 <img class="platformLibraryImage" [src]="gameMeth.getPlatformImage(platform)" [alt]="platform">

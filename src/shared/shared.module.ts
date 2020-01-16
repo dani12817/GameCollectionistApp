@@ -13,6 +13,9 @@ import { PendingGamesPage } from 'src/app/pending-games/pending-games.page';
 import { MyLibraryPage } from 'src/app/my-library/my-library.page';
 import { GameDetailsPage } from 'src/app/game-details/game-details.page';
 import { AddOtherModalPage } from './add-other-modal/add-other-modal.page';
+import { UserGameDetailsPage } from './modals/user-game-details/user-game-details';
+import { UserDataPage } from '../app/user-data/user-data.page';
+import { UserProfilePage } from '../app/user-profile/user-profile.page';
 
 
 @NgModule({
@@ -32,7 +35,17 @@ import { AddOtherModalPage } from './add-other-modal/add-other-modal.page';
     FlexLayoutModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [AddOtherModalPage],
-  declarations: [HomePage, AddGamePage, LoginPage, RegisterPage, PendingGamesPage, MyLibraryPage, GameDetailsPage, AddOtherModalPage]
+  entryComponents: [AddOtherModalPage, UserGameDetailsPage],
+  declarations: [
+    HomePage,
+    AddGamePage,
+    LoginPage, RegisterPage,
+    PendingGamesPage,
+    MyLibraryPage,
+    GameDetailsPage,
+    AddOtherModalPage,
+    UserGameDetailsPage,
+    UserDataPage, UserProfilePage
+  ]
 })
 export class SharedModule {}

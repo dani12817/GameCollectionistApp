@@ -31,7 +31,7 @@ export class AddGamePage {
   genres: string[] = genres;
   gameMeth = GameMethods;
 
-  reader = new FileReader()
+  reader = new FileReader();
 
   validationMessages = {
     name: {required: 'El nombre es obligatorio.'},
@@ -80,7 +80,7 @@ export class AddGamePage {
 
       if (this.gameData === null || this.gameData === undefined) { this.router.navigate(['/home']); }
       this.userService.gameOnLibrary(this.gameData.game_code).then(response => {
-        this.gameData.game_on_library = response;
+        this.gameData.userGame = response;
       }).catch(err => console.error(err));
     });
   }

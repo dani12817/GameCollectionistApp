@@ -12,7 +12,8 @@ export class GameService {
 
   getAllGames(pending?: boolean): Promise<Game[]> {
     return new Promise<Game[]>((resolve, reject) => {
-      this.afs.collection<Game>(pending ? 'pendingGames' : 'games').valueChanges().subscribe(response => {
+      let sub = this.afs.collection<Game>(pending ? 'pendingGames' : 'games').valueChanges().subscribe(response => {
+        sub.unsubscribe();
         resolve(response);
       }, err => reject(err));
     });
@@ -20,7 +21,8 @@ export class GameService {
 
   getGameByGameCode(game_code: string, pending?: boolean): Promise<Game> {
     return new Promise<any>((resolve, reject) => {
-      this.afs.collection<Game>(pending ? 'pendingGames' : 'games').doc<Game>(game_code).valueChanges().subscribe(response => {
+      let sub = this.afs.collection<Game>(pending ? 'pendingGames' : 'games').doc<Game>(game_code).valueChanges().subscribe(response => {
+        sub.unsubscribe();
         resolve(new Game(response));
       }, err => reject(err));
     });
@@ -34,18 +36,18 @@ export class GameService {
 
   saveWithBoxart(gameData: Game, boxart, pending: boolean) {
 	  return new Promise<any>((resolve, reject) => {
-		const fileRef = this.storage.ref(`games/${gameData.game_code}.${boxart.name.split(".")[1]}`);
-    const metaData = { contentType: boxart.type };
-    console.log("saveWithBoxart", gameData, boxart, pending);
-
-		fileRef.put(boxart, metaData).then(snapshot => {
-		  snapshot.ref.getDownloadURL().then(downloadURL => {
-			gameData.image = downloadURL;
-			gameData.namecode = this.generateNameCode(gameData.name);
-			this.afs.collection<Game>(pending ? 'pendingGames' : 'games').doc(gameData.game_code).set(gameData);
-			resolve(true);
-		  }).catch(err => reject(err));
-		}).catch(err => reject(err));
+  		const fileRef = this.storage.ref(`games/${gameData.game_code}.${boxart.name.split(".")[1]}`);
+      const metaData = { contentType: boxart.type };
+      console.log("saveWithBoxart", gameData, boxart, pending);
+  
+  		fileRef.put(boxart, metaData).then(snapshot => {
+  		  snapshot.ref.getDownloadURL().then(downloadURL => {
+    			gameData.image = downloadURL;
+    			gameData.namecode = this.generateNameCode(gameData.name);
+    			this.afs.collection<Game>(pending ? 'pendingGames' : 'games').doc(gameData.game_code).set(gameData);
+    			resolve(true);
+  		  }).catch(err => reject(err));
+  		}).catch(err => reject(err));
 	  });
   }
 

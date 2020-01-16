@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -12,7 +12,7 @@ import { AuthService } from '../providers/auth.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   appPages = [
     {title: 'Home', url: '/home', icon: 'home'},
     {title: 'Iniciar Sesión', url: 'login', icon: 'contact'},
@@ -20,14 +20,27 @@ export class AppComponent {
 
   appPagesLogged = [
     {title: 'Home', url: '/home', icon: 'home'},
+    {title: 'Datos de usuario', url: '/user-data', icon: 'person'},
+    {title: 'Mi Perfil', url: '', icon: 'people'},
     {title: 'Mi librería', url: '/my-library', icon: 'albums'},
     {title: 'Pedir un juego', url: '/request-game', icon: 'logo-game-controller-b'},
     {title: 'Cerrar sesión', url: '/home', icon: 'exit'},
   ];
+  sub;
 
   constructor(private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar, private afAuth: AngularFireAuth, public authService: AuthService) {
     this.initializeApp();
-    this.authService.getLoggedInUser();
+    this.sub = this.afAuth.authState.subscribe(response => {
+      if (response) {
+        this.authService.getLoggedInUser().then(response => {
+          this.appPagesLogged[2].url = `/user/${response.nickname}`;
+        });
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   initializeApp() {
@@ -42,8 +55,7 @@ export class AppComponent {
   }
 
   logOff() {
-    console.log("logOff");
-    this.authService.userLogged = null;
     this.afAuth.auth.signOut();
+    this.authService.userLogged = null;
   }
 }

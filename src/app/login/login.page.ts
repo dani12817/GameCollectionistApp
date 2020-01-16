@@ -30,12 +30,16 @@ export class LoginPage {
     }), this.validationMessages);
   }
 
-  doLoginEmailPass() {
-    this.authService.loginEmailPass(this.loginForm.getValue()).then(async response => {
+  async doLoginEmailPass() {
+    
+    try {
+      let response = await this.authService.loginEmailPass(this.loginForm.getValue())
       console.log("loginEmailPass", response);
       this.navCtrl.navigateRoot('/home');
-      (await this.toastCtrl.create({ message: 'Inicio de Sesión Correcto', duration: 3000 })).present();
-    }).catch(err => console.error(err));
+    } catch (err) {
+      console.error(err);
+      (await this.toastCtrl.create({ message: 'Inicio de Sesión erróneo', duration: 3000 })).present();
+    }
   }
 
   async doLoginSocialNetwork(loginType: string) {
@@ -46,6 +50,8 @@ export class LoginPage {
         'scoper': 'profile email'
       });
       const firebaseUser = await this.afAuth.auth.signInWithCredential(auth.GoogleAuthProvider.credential(googleUser.idToken));
+      await this.authService.getLoggedInUser();
+      if (!this.authService.userLogged) { this.authService.initializeUser(firebaseUser); }
 
       console.log("doLoginSocialNetwork", firebaseUser);
       (await this.toastCtrl.create({ message: 'Inicio de Sesión Correcto', duration: 3000 })).present();
