@@ -3,17 +3,17 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
+
         <img src="/assets/img/logo.png" srcset="/assets/img/logo.png">
+
+        <ion-buttons slot="end">
+            <ion-button class="icon-only accent" [routerLink]="['/edit-game', gameData.game_code]" *ngIf="authService.userLogged && authService.userLogged.admin"><ion-icon name="create"></ion-icon></ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-    <div class="gameBoxartContainer">
-        <img class="gameBoxart" [src]="gameData.image" [srcset]="gameData.image">
-        <ion-button class="gameEditButton primary icon-only" [routerLink]="['/edit-game', gameData.game_code]" *ngIf="authService.userLogged && authService.userLogged.admin">
-            <ion-icon name="create"></ion-icon>
-        </ion-button>
-    </div>
+    <img class="gameBoxart" [src]="gameData.image" [srcset]="gameData.image">
 
     <div class="gameDataContianer">
         <div class="gameDataSection gameDataName">{{gameData.name}} <span *ngIf="gameData.original_name">[{{gameData.original_name}}]</span></div>

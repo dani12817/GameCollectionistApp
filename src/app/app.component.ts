@@ -5,7 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { AuthService } from '../providers/auth.service';
+import { AuthService, LoadingService } from 'src/providers/providers';
+
 
 @Component({
   selector: 'app-root',
@@ -26,9 +27,11 @@ export class AppComponent implements OnDestroy {
     {title: 'Pedir un juego', url: '/request-game', icon: 'logo-game-controller-b'},
     {title: 'Cerrar sesión', url: '/home', icon: 'exit'},
   ];
+
   sub;
 
-  constructor(private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar, private afAuth: AngularFireAuth, public authService: AuthService) {
+  constructor(private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar, private afAuth: AngularFireAuth, public authService: AuthService,
+  public loading: LoadingService) {
     this.initializeApp();
     this.sub = this.afAuth.authState.subscribe(response => {
       if (response) {

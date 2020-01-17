@@ -4,8 +4,11 @@
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <img src="/assets/img/logo.png" srcset="/assets/img/logo.png" [routerLink]="['/home']">
-        <ion-buttons slot="end">
+        <!-- <ion-buttons slot="end">
             <ion-button (click)="ionViewWillEnter()"><ion-icon slot="icon-only" name="refresh"></ion-icon></ion-button>
+        </ion-buttons> -->
+        <ion-buttons slot="end">
+            <ion-button (click)="openSearchModal()"><ion-icon slot="icon-only" name="search"></ion-icon></ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>

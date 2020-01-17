@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { NavParams, ModalController } from '@ionic/angular';
 
-import { Game } from '../../models/game';
-import { GameService } from '../../providers/game.service';
+import { Game } from '../../../models/game';
+import { GameService } from '../../../providers/game.service';
 
-import { FormClass } from '../form-class';
-import { GameMethods } from '../game-methods';
+import { GameMethods } from '../../game-methods';
 
 @Component({
   selector: 'add-other-modal',

@@ -1,0 +1,74 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button class="icon-only accent" (click)="closeModal()"><ion-icon name="arrow-back"></ion-icon></ion-button>
+        </ion-buttons>
+
+        <div class="modal-toolbar-title blank">Filtros de búsqueda</div>
+
+        <ion-buttons slot="end">
+            <ion-button class="icon-only accent" (click)="submitSearch()"><ion-icon name="checkmark"></ion-icon></ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="searhModalContent">
+        <form class="searchForm" [formGroup]="searchForm.formGroup" *ngIf="searchForm">
+            <ion-radio-group formControlName="type">
+                <ion-col>
+                    <ion-item (click)="resetForm()">
+                        <ion-label>Juegos</ion-label>
+                        <ion-radio value="game"></ion-radio>
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-item (click)="resetForm()">
+                        <ion-label>Usuario</ion-label>
+                        <ion-radio value="user"></ion-radio>
+                    </ion-item>
+                </ion-col>
+            </ion-radio-group>
+            
+            <div class="userFilters" *ngIf="searchForm.formGroup.get('type').value == 'user'">
+                <ion-item>
+                    <ion-label position="stacked">Nickname</ion-label>
+                    <ion-input formControlName="nickname" type="text" placeholder="Nickname"></ion-input>
+                </ion-item>
+            </div>
+
+            <div class="gameFilters" *ngIf="searchForm.formGroup.get('type').value == 'game'">
+                <ion-item>
+                    <ion-label position="stacked">Nombre</ion-label>
+                    <ion-input formControlName="name" type="text" placeholder="Nombre"></ion-input>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label position="stacked">Código del Juego</ion-label>
+                    <ion-input formControlName="game_code" type="text" placeholder="Código del Juego"></ion-input>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label position="stacked">Plataforma</ion-label>
+                    <ion-select formControlName="platform" placeholder="" multiple>
+                        <ion-select-option [value]="platform" *ngFor="let platform of platforms">{{platform}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label position="stacked">Region</ion-label>
+                    <ion-select formControlName="region" placeholder="" multiple>
+                        <ion-select-option [value]="region" *ngFor="let region of regions">{{region}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label position="stacked">Géneros</ion-label>
+                    <ion-select formControlName="genres" placeholder="" multiple>
+                        <ion-select-option [value]="genre" *ngFor="let genre of genres">{{genre}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </div>
+        </form>
+    </div>
+</ion-content>

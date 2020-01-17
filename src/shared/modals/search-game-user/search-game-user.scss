@@ -1,0 +1,19 @@
+ion-content {
+  .searhModalContent {
+    form ion-item:not(:last-child) {
+      margin-bottom: 16px;
+    }
+
+    ion-radio-group {
+      display: flex;
+
+      ion-item {
+        --border-style: none;
+
+        ion-label {
+          text-align: center;
+        }
+      }
+    }
+  }
+}

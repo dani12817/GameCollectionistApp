@@ -57,6 +57,20 @@ ion-button.icon-only {
     --background: transparent;
     --box-shadow: none;
     --background-hover: transparent;
+
+    ion-icon {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.modal-toolbar-title {
+    font: 500 20px/32px Roboto,"Helvetica Neue",sans-serif;
+    text-align: center;
+}
+
+.blank {
+    color: white;
 }
 
 .primary {

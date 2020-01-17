@@ -12,10 +12,12 @@ import { RegisterPage } from '../app/register/register.page';
 import { PendingGamesPage } from 'src/app/pending-games/pending-games.page';
 import { MyLibraryPage } from 'src/app/my-library/my-library.page';
 import { GameDetailsPage } from 'src/app/game-details/game-details.page';
-import { AddOtherModalPage } from './add-other-modal/add-other-modal.page';
-import { UserGameDetailsPage } from './modals/user-game-details/user-game-details';
 import { UserDataPage } from '../app/user-data/user-data.page';
 import { UserProfilePage } from '../app/user-profile/user-profile.page';
+
+import { UserGameDetailsPage } from './modals/user-game-details/user-game-details';
+import { SearchGameUserPage } from './modals/search-game-user/search-game-user';
+import { AddOtherModalPage } from './modals/add-other-modal/add-other-modal.page';
 
 
 @NgModule({
@@ -35,7 +37,7 @@ import { UserProfilePage } from '../app/user-profile/user-profile.page';
     FlexLayoutModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [AddOtherModalPage, UserGameDetailsPage],
+  entryComponents: [AddOtherModalPage, UserGameDetailsPage, SearchGameUserPage],
   declarations: [
     HomePage,
     AddGamePage,
@@ -43,9 +45,8 @@ import { UserProfilePage } from '../app/user-profile/user-profile.page';
     PendingGamesPage,
     MyLibraryPage,
     GameDetailsPage,
-    AddOtherModalPage,
-    UserGameDetailsPage,
-    UserDataPage, UserProfilePage
+    UserDataPage, UserProfilePage,
+    UserGameDetailsPage, SearchGameUserPage, AddOtherModalPage,
   ]
 })
 export class SharedModule {}

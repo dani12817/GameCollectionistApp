@@ -43,6 +43,14 @@ export class FormClass {
   getValue() {
     return this.formGroup.value;
   }
+  
+  getValueNotNull() {
+    let formValue = {};
+    for (const field of Object.keys(this.formGroup.value)) {
+      if (this.get(field).value) { formValue[field] = this.get(field).value }
+    }
+    return formValue;
+  }
 
   /**
    * Devuelve el campo del FromGroup pasado como parámetro.

@@ -6,7 +6,7 @@ import { ToastController, NavController, ModalController } from '@ionic/angular'
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { OCR, OCRSourceType } from '@ionic-native/ocr/ngx';
 
-import { AddOtherModalPage } from 'src/shared/add-other-modal/add-other-modal.page';
+import { AddOtherModalPage } from '../../shared/modals/add-other-modal/add-other-modal.page';
 
 import { Game } from '../../models/game';
 import { GameService } from '../../providers/game.service';

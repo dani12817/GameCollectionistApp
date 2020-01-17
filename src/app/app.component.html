@@ -1,4 +1,5 @@
 <ion-app>
+    <ion-progress-bar color="secondary" type="indeterminate" *ngIf="loading.isLoading"></ion-progress-bar>
     <ion-split-pane>
         <ion-menu type="overlay">
             <ion-header>
@@ -14,10 +15,12 @@
                             <ion-label>{{p.title}}</ion-label>
                         </ion-item>
                     </ion-menu-toggle>
-                    <ion-item auto-hide="false" [routerDirection]="'root'" [routerLink]="['/create-game']" *ngIf="authService.userLogged && authService.userLogged.admin">
-                        <ion-icon slot="start" name="logo-game-controller-a"></ion-icon>
-                        <ion-label>Crear un juego</ion-label>
-                    </ion-item>
+                    <ion-menu-toggle auto-hide="false">
+                        <ion-item [routerDirection]="'root'" [routerLink]="['/create-game']" *ngIf="authService.userLogged && authService.userLogged.admin">
+                            <ion-icon slot="start" name="logo-game-controller-a"></ion-icon>
+                            <ion-label>Crear un juego</ion-label>
+                        </ion-item>
+                    </ion-menu-toggle>
                     <ion-item auto-hide="false" [routerDirection]="'root'" [routerLink]="['/pending-games']" *ngIf="authService.userLogged && authService.userLogged.admin">
                         <ion-icon slot="start" name="cloud-upload"></ion-icon>
                         <ion-label>Juegos pendientes</ion-label>

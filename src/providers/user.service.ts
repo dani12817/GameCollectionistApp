@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class UserService {
-  private usersGameLibrary = this.afs.collection<User[]>("usersGameLibrary");
+  private usersGameLibrary = this.afs.collection<User>("usersGameLibrary");
 
   constructor(private authService: AuthService, private storage: AngularFireStorage, private afs: AngularFirestore) { }
 
@@ -26,6 +26,23 @@ export class UserService {
           } else { resolve(null); }
         }, err => reject(err));
       }
+    });
+  }
+
+  searchUser(nickname: string): Promise<User[]> {
+    return new Promise<User[]>((resolve, reject) => {
+      let sub = this.usersGameLibrary.valueChanges().subscribe(response => {
+        sub.unsubscribe();
+        let searchResult: User[] = [];
+        if (!nickname) {
+          searchResult = response;
+        } else {
+          for (const user of response) {
+            if (user.nickname.toLowerCase().includes(nickname.toLowerCase())) { searchResult.push(user); }
+          }
+        }
+        resolve(searchResult);
+      }, err => reject(err));
     });
   }
 

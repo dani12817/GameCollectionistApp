@@ -1,20 +1,6 @@
 ion-content {
   margin: 0 auto;
 
-  .gameBoxartContainer {
-      position: relative;
-
-      .gameBoxart {
-        width: 100%;
-      }
-
-      .gameEditButton {
-          left: 0;
-          top: 0;
-          position: absolute;
-      }
-  }
-
   .gameDataContianer {
       margin-bottom: auto;
       
@@ -99,8 +85,9 @@ ion-content {
       padding: 24px;
       flex-direction: column !important;
 
-      .gameBoxartContainer {
+      .gameBoxart {
           width: 320px;
+          display: block;
           margin: 0 auto;
       }
   
@@ -121,7 +108,7 @@ ion-content {
   ion-content {
       padding: 12px;
 
-      .gameBoxartContainer {
+      .gameBoxart {
         width: calc(100vw - 32px);
       }
   }
