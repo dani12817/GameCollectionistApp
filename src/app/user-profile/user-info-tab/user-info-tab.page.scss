@@ -1,0 +1,26 @@
+ion-content {    
+    .userAvatarContainer {
+        img {
+            width: 256px;
+            height: 256px;
+            border-radius: 50%;
+        }
+    }
+
+    .userDataContainer {
+        .userDataSection:not(:last-child) {
+            margin-bottom: 16px;
+        }
+
+        .userDataSectionTitle {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .userDataField {
+            font-weight: 500;
+            font-size: 16px;
+            margin-left: 12px;
+        }
+    }
+}

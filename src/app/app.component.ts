@@ -36,7 +36,7 @@ export class AppComponent implements OnDestroy {
     this.sub = this.afAuth.authState.subscribe(response => {
       if (response) {
         this.authService.getLoggedInUser().then(response => {
-          this.appPagesLogged[2].url = `/user/${response.nickname}`;
+          this.appPagesLogged[2].url = `/user/${response.nickname}/user-info-tab`;
         });
       }
     });

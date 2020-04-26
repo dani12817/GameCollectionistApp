@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { User } from '../../models/models';
 
 @Component({
   selector: 'app-user-profile',
@@ -6,5 +9,12 @@ import { Component } from '@angular/core';
   styleUrls: ['user-profile.page.scss'],
 })
 export class UserProfilePage {
-  constructor() { }
+  userData: User;
+  
+  constructor(private route: ActivatedRoute) { 
+    this.route.data.subscribe((routeData: {userData: User}) => {
+      this.userData = routeData.userData;
+      console.log("userData", routeData);
+    });
+  }
 }

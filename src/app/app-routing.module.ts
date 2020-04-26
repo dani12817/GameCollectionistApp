@@ -10,9 +10,11 @@ import { MyLibraryPage } from './my-library/my-library.page';
 import { GameDetailsPage } from './game-details/game-details.page';
 import { UserDataPage } from './user-data/user-data.page';
 import { UserProfilePage } from './user-profile/user-profile.page';
+import { UserInfoTabPage } from './user-profile/user-info-tab/user-info-tab.page';
 
 import { GameDetailsResolverService } from '../shared/resolvers/game-details-resolver.service';
 import { AuthUserResolverService } from '../shared/resolvers/auth-user-resolver.service';
+import { UserDataResolverService } from '../shared/resolvers/user-data-resolver.service';
 
 const routes: Routes = [
   {
@@ -67,7 +69,16 @@ const routes: Routes = [
   },
   {
     path: 'user/:nickname',
-    component: UserProfilePage
+    component: UserProfilePage,
+    resolve: {
+      userData: UserDataResolverService
+    },
+    children: [
+      {
+        path: 'user-info-tab',
+        component: UserInfoTabPage,
+      },
+    ]
   },
   {
     path: 'user-data',
@@ -82,7 +93,7 @@ const routes: Routes = [
     resolve: {
       gameData: GameDetailsResolverService
     }
-  }
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,22 @@
+<ion-content padding *ngIf="userData">
+    <div class="userAvatarContainer">
+        <img [src]="userData.avatar ? userData.avatar : 'assets/img/no_image.jpg'">
+    </div>
+
+    <div class="userDataContainer">
+        <div class="userDataSection">
+            <div class="userDataSectionTitle">Nombre</div>
+            <div class="userDataField">{{userData.name}}</div>
+        </div>
+
+        <div class="userDataSection">
+            <div class="userDataSectionTitle">Nickname</div>
+            <div class="userDataField">{{userData.nickname}}</div>
+        </div>
+
+        <div class="userDataSection">
+            <div class="userDataSectionTitle">E-mail</div>
+            <div class="userDataField">{{userData.email}}</div>
+        </div>
+    </div>
+</ion-content>

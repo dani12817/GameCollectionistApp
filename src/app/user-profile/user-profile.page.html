@@ -13,5 +13,22 @@
 </ion-header>
 
 <ion-content>
-    userprofile
+    <ion-tabs>
+        <ion-tab-bar slot="bottom">
+            <ion-tab-button tab="user-info-tab">
+                <ion-icon name="person"></ion-icon>
+                <ion-label>Datos del Usuario</ion-label>
+            </ion-tab-button>
+        
+            <ion-tab-button tab="speakers">
+                <ion-icon name="logo-game-controller-b"></ion-icon>
+                <ion-label>Librería</ion-label>
+            </ion-tab-button>
+        
+            <ion-tab-button tab="speakers">
+                <ion-icon name="people"></ion-icon>
+                <ion-label>Amigos</ion-label>
+            </ion-tab-button>
+        </ion-tab-bar>
+    </ion-tabs>
 </ion-content>

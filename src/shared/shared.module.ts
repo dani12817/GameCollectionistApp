@@ -18,6 +18,7 @@ import { UserProfilePage } from '../app/user-profile/user-profile.page';
 import { UserGameDetailsPage } from './modals/user-game-details/user-game-details';
 import { SearchGameUserPage } from './modals/search-game-user/search-game-user';
 import { AddOtherModalPage } from './modals/add-other-modal/add-other-modal.page';
+import { UserInfoTabPage } from '../app/user-profile/user-info-tab/user-info-tab.page';
 
 
 @NgModule({
@@ -45,7 +46,7 @@ import { AddOtherModalPage } from './modals/add-other-modal/add-other-modal.page
     PendingGamesPage,
     MyLibraryPage,
     GameDetailsPage,
-    UserDataPage, UserProfilePage,
+    UserDataPage, UserProfilePage, UserInfoTabPage,
     UserGameDetailsPage, SearchGameUserPage, AddOtherModalPage,
   ]
 })
